@@ -7,6 +7,7 @@ defmodule Docs.InfoSys.Cats do
 
   def init(opts) do
     send(self, :request)
+    :random.seed(:os.timestamp())
     {:ok, opts}
   end
 
