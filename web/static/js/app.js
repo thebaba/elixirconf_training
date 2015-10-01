@@ -19,10 +19,7 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
-
-
 import {Socket} from "deps/phoenix/web/static/js/phoenix"
-
 let socket = new Socket("/socket", {
   logger: (kind, msg, data) => {
     console.log(`${kind}: ${msg}`, data)
@@ -51,6 +48,7 @@ let App = {
       docChan.push("new_message", {body: msgInput.val()})
       msgInput.val("")
     })
+
 
     editorContainer.on("keydown", e => {
       if(!(e.which === 13 && e.metaKey)){ return }

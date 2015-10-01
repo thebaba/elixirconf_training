@@ -1,6 +1,6 @@
 defmodule Docs.InfoSys do
 
-  @backends [Docs.InfoSys.Wolfream]
+  @backends [Docs.InfoSys.Wolfram]
 
   def start_link(backend, opts) do
     backend.start_link(opts)
@@ -10,11 +10,11 @@ defmodule Docs.InfoSys do
     @backends
     |> Enum.map(fn backend ->
       Supervisor.start_child(Docs.InfoSys.Supervisor, [backend, [
-        client_id: self,
+        client_pid: self,
         expr: expr
       ]])
     end)
-    |> Enum.filter(fn
+    |> Enum.map(fn
       {:ok, pid} -> {Process.monitor(pid), pid}
       _ -> nil
     end)
@@ -35,11 +35,10 @@ defmodule Docs.InfoSys do
     Process.demonitor(ref)
 
     receive do
-      {:DOWN, _ref, :proces, ^pid, _} -> nil
+      {:DOWN, _ref, :process, ^pid, _} -> nil
     after 0 -> nil
     end
 
     result
   end
-
 end

@@ -58,6 +58,7 @@ defmodule Docs.DocumentChannel do
     end
   end
 
+
   def handle_in("compute_img", params, socket) do
     img_url =
       case Docs.InfoSys.compute_img(params["expr"]) do

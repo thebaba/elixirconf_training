@@ -9,8 +9,6 @@ defmodule Docs.InfoSys.Supervisor do
     children = [
       worker(Docs.InfoSys, [], restart: :temporary)
     ]
-
     supervise children, strategy: :simple_one_for_one
   end
-
 end

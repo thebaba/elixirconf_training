@@ -6,14 +6,14 @@ defmodule Docs.InfoSys.Wolfram do
   end
 
   def init(opts) do
-    send(self, :requests)
+    send(self, :request)
     {:ok, opts}
   end
 
-  def handle_info(:requests, opts) do
+  def handle_info(:request, opts) do
     import SweetXml
 
-    input = URI.encode(opts["expr"])
+    input = URI.encode(opts[:expr])
     {:ok, {_, _, body}} = :httpc.request(String.to_char_list(
       "http://api.wolframalpha.com/v2/query?appid=#{app_id()}&input=#{input}&format=image,plaintext"
     ))
@@ -29,7 +29,6 @@ defmodule Docs.InfoSys.Wolfram do
     case img_url do
       "" ->
         send(opts[:client_pid], {:noresult, self})
-        {:stop, :shutdown, opts}
       img_url ->
         send(opts[:client_pid], {:result, self, %{
                                     score: 90, img_url: img_url}})
@@ -39,5 +38,4 @@ defmodule Docs.InfoSys.Wolfram do
   end
 
   defp app_id(), do: Application.get_env(:docs, :wolfram)[:app_id]
-
 end
