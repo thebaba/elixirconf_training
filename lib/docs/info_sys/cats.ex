@@ -2,7 +2,6 @@ defmodule Docs.InfoSys.Cats do
 
   def compute_img(opts) do
     :random.seed(:os.timestamp())
-    :timer.sleep(10_000)
 
     if String.contains?(opts[:expr], "cat") do
       %{score: 100, img_url: random_cat()}
