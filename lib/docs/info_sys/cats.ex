@@ -16,11 +16,12 @@ defmodule Docs.InfoSys.Cats do
       send(opts[:client_pid], {:result, self, %{
                                 score: 100, img_url: img_url}})
     else
+      send(opts[:client_pid], {:noresult, self})
     end
     {:stop, :shutdown, opts}
   end
 
-  def random_cat() do
+  defp random_cat() do
     Enum.random([
       "http://stylonica.com/wp-content/uploads/2014/03/Cute-Cats-cats-33440930-1280-800.jpg",
       "http://i.ytimg.com/vi/W-PBFMECvTE/maxresdefault.jpg",
