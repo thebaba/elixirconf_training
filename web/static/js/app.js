@@ -36,9 +36,12 @@ socket.onOpen( () => console.log("connected!") )
 let App = {
   init(){
     let docId = $("#doc-form").data("id")
+    if(!docId){ return }
+
     let docChan = socket.channel("documents:" + docId)
     docChan.params["last_message_id"] = 0
     let editor = new Quill("#editor")
+    let editorContainer = $("#editor")
     let docForm = $("#doc-form")
     let msgContainer = $("#messages")
     let msgInput = $("#message-input")
@@ -47,6 +50,19 @@ let App = {
     msgInput.on("keypress", e => { if(e.which !== 13){ return }
       docChan.push("new_message", {body: msgInput.val()})
       msgInput.val("")
+    })
+
+    editorContainer.on("keydown", e => {
+      if(!(e.which === 13 && e.metaKey)){ return }
+
+      let {start, end} = editor.getSelection()
+      let expr = editor.getText(start, end)
+      docChan.push("compute_img", {expr, start, end})
+    })
+
+    docChan.on("insert_img", ({url, start, end}) => {
+      editor.deleteText(start, end)
+      editor.insertEmbed(start, "image", url)
     })
 
     docChan.on("new_message", msg => {
