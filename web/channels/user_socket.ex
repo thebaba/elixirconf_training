@@ -6,7 +6,8 @@ defmodule Docs.UserSocket do
   channel "documents:*", Docs.DocumentChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
+  transport :websocket, Phoenix.Transports.WebSocket
+
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
@@ -18,7 +19,7 @@ defmodule Docs.UserSocket do
   #
   #  To deny connection, return `:error`.
   def connect(_params, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :user_id, :guest)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

@@ -24,7 +24,7 @@
 
   <div class="form-group">
     <div id="editor" class="form-control">
-    <%= raw @changeset.model.body %>
+      <%= raw @changeset.model.body %>
     </div>
   </div>
 

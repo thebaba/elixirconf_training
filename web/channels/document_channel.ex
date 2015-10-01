@@ -7,10 +7,9 @@ defmodule Docs.DocumentChannel do
   end
 
   def handle_in("text_change", %{"ops" => ops}, socket) do
-    broadcast_from socket, "text_change", %{
+    broadcast_from! socket, "text_change", %{
       ops: ops
     }
-
     {:reply, :ok, socket}
   end
 
@@ -24,7 +23,6 @@ defmodule Docs.DocumentChannel do
         {:reply, :ok, socket}
       {:error, changeset} ->
         {:reply, {:error, %{reasons: changeset}}, socket}
-      end
+    end
   end
-
 end
