@@ -28,4 +28,5 @@ defmodule Docs.InfoSys.Cats do
       "http://i.ytimg.com/vi/W-PBFMECvTE/maxresdefault.jpg",
       "http://www.findcatnames.com/wp-content/uploads/2014/09/453768-cats-cute.jpg"
     ])
+  end
 end
